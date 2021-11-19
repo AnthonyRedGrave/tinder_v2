@@ -6,7 +6,7 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=tinder
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   web:
