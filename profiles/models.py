@@ -58,7 +58,7 @@ class ProfileInformation(models.Model):
     weight = models.DecimalField("Вес", decimal_places=1, max_digits=4, default=0)
     description = models.TextField("Описание профиля")
     location = models.CharField("Место расположения", max_length=150)
-    favorites = models.ManyToManyField(Favorites, related_name="profile_information")
+    favorites = models.ManyToManyField(Favorites, verbose_name='Теги фейворитов')
     registration_date = models.DateTimeField("Дата регистрации профиля", auto_now=True)
 
     def __str__(self) -> str:

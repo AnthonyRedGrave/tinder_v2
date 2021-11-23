@@ -40,8 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'profiles',
     'gallery',
-    'favorites'
+    'favorites',
+    'graphene_django'
+
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'profiles.schema.schema'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
