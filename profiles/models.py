@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from favorites.models import Favorites
 
 
 class Profile(models.Model):
@@ -19,39 +20,6 @@ class Profile(models.Model):
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
-
-
-class Photo(models.Model):
-    image = models.ImageField("Изображения для профиля", )
-    gallery = models.ForeignKey('Gallery', on_delete=models.CASCADE, related_name='photos')
-
-    def __str__(self) -> str:
-        return self.image.name
-
-    class Meta:
-        verbose_name = "Изображение для профиля"
-        verbose_name_plural = "Изображения для профиля"
-    
-class Gallery(models.Model):
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='gallery')
-    
-    def __str__(self) -> str:
-        return f"Галерея изображения профиля {self.profile.user.username}"
-
-    class Meta:
-        verbose_name = "Галерея профилей"
-        verbose_name_plural = "Галереи профилей"
-
-
-class Favorites(models.Model):
-    title = models.CharField("Название тега", max_length=60)
-
-    def __str__(self) -> str:
-        return self.title
-
-    class Meta:
-        verbose_name = "Тег"
-        verbose_name_plural = "Теги"
 
 
 class Language(models.Model):
