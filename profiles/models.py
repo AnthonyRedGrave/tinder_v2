@@ -12,7 +12,6 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     status = models.CharField("Статус профиля", choices=StatusChoices.choices, max_length=15)
-    # information = models.OneToOneField('ProfileInformation', on_delete=models.CASCADE, related_name='profile')
 
     def __str__(self) -> str:
         return f"Профиль пользователя {self.user.username}"

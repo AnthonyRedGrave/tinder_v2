@@ -2,6 +2,7 @@ from favorites.models import Favorites
 import graphene
 from graphene_django import DjangoObjectType
 from .models import Language, Profile, ProfileInformation
+from .services import get_profiles_with_opposite_gender, get_profiles_with_same_favorites
 
 
 class LanguageType(DjangoObjectType):
@@ -43,6 +44,7 @@ class ProfileType(DjangoObjectType):
     lastname = graphene.String()
     information = graphene.Field(ProfileInformationType)
 
+
     def resolve_username(self, info):
         return self.user.username
     
@@ -58,12 +60,17 @@ class ProfileType(DjangoObjectType):
 
 class Query(graphene.ObjectType):
     profiles = graphene.List(ProfileType)
+    profiles_with_favorites = graphene.List(ProfileType)
     profile = graphene.Field(ProfileType, id=graphene.Int())
 
     def resolve_profiles(self, info):
-        request_user_profile = Profile(user = info.context.user)
-        request_user_profile_info = ProfileInformation(profile = request_user_profile)
-        return Profile.objects.exclude(profile_information__gender = request_user_profile_info.gender)
+        profiles = get_profiles_with_opposite_gender(info.context.user)
+        return profiles
+
+    def resolve_profiles_with_favorites(self, info):
+        profiles, profile_information = get_profiles_with_opposite_gender(info.context.user)
+        profiles_with_favorites = get_profiles_with_same_favorites(profiles, profile_information)
+        return profiles_with_favorites
 
     def resolve_profile(self, info, id):
         try:
@@ -72,4 +79,4 @@ class Query(graphene.ObjectType):
             return None
 
 
-schema = graphene.Schema(query=Query, context_value=request)
+schema = graphene.Schema(query=Query)
