@@ -12,7 +12,6 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     status = models.CharField("Статус профиля", choices=StatusChoices.choices, max_length=15)
-    # information = models.OneToOneField('ProfileInformation', on_delete=models.CASCADE, related_name='profile')
 
     def __str__(self) -> str:
         return f"Профиль пользователя {self.user.username}"
@@ -58,7 +57,7 @@ class ProfileInformation(models.Model):
     weight = models.DecimalField("Вес", decimal_places=1, max_digits=4, default=0)
     description = models.TextField("Описание профиля")
     location = models.CharField("Место расположения", max_length=150)
-    favorites = models.ManyToManyField(Favorites, related_name="profile_information")
+    favorites = models.ManyToManyField(Favorites, verbose_name='Теги фейворитов')
     registration_date = models.DateTimeField("Дата регистрации профиля", auto_now=True)
 
     def __str__(self) -> str:
